@@ -28,39 +28,36 @@ import java.io.PrintWriter;
             ArrayBody,//13 used with PerlArray
             Percent,//14 % used with PerlHash
             HashBody,//15 used with PerlHash
-            Zero,
-            X,
-            Hex,
+            X,//16 used for Hex
+            Hex,//17 used for Hex
 
             // final states
-            Id, //7 used for identifiers
-            id_i,//8 used for printing
-            id_tru,//9 used for printing
-            Semicolon,//10 ; used as special char for Perl Ids
-            Assign,//11 = used for assignment
-            LBrace,//12 { used for open code block
-            RBrace,//13 } used for close code block
-            Incr,//14 ++ used for increment
-            Decr,//15 -- used for decrement
-            Not,//16 ! used as logical not
-            Or,//17 || used as logical or
-            And,//18 && used as logical and
-            Int, // 19 Int used for integer literals
-            Float, //20 Float used for floating point literals
-            FloatE, //21 FloatE used for floating point liters with exponent
-            Add, //22 + used for addition 
-            Sub, //23 - used for subtraction
-            Mul, //24 * used for multiplication
-            Div, //25 / used for division
-            Mod, //26 ~ used for modulo operator
-            LParen, //27 ( used for open function parameter
-            RParen, //28 ) used for close function parameter
-            String, //29 "" used to denote String
-            PerlScalar, //30 $ used to denote Perl scalars
-            PerlArray, //31 @ used to denote Perl arrays
-            PerlHash, //32 % used to denote Perl hashes
-            Char, //33 ' used to denote characters
-            UNDEF //undefined used for errors
+            Id,//18 used for identifiers
+            Semicolon,//19 ; used as special char for Perl Ids
+            Assign,//20 = used for assignment
+            LBrace,//21 { used for open code block
+            RBrace,//22 } used for close code block
+            Incr,//23 ++ used for increment
+            Decr,//24 -- used for decrement
+            Not,//25 ! used as logical not
+            Or,//26 || used as logical or
+            And,//27 && used as logical and
+            Int, // 28 Int used for integer literals
+            Float, //29 Float used for floating point literals
+            FloatE, //30 FloatE used for floating point liters with exponent
+            Add, //31 + used for addition 
+            Sub, //32 - used for subtraction
+            Mul, //33 * used for multiplication
+            Div, //34 / used for division
+            Mod, //36 ~ used for modulo operator
+            LParen, //36 ( used for open function parameter
+            RParen, //37 ) used for close function parameter
+            String, //38 "" used to denote String
+            PerlScalar, //39 $ used to denote Perl scalars
+            PerlArray, //40 @ used to denote Perl arrays
+            PerlHash, //41 % used to denote Perl hashes
+            Char, //42 ' used to denote characters
+            UNDEF //43 undefined used for errors
         }
 
         
@@ -177,8 +174,6 @@ import java.io.PrintWriter;
                         return State.Percent;
                     else if (c == '\'')
                         return State.SnglQuote;
-                    /*else if (c == 'x')
-                        return State.X;*/
                     else
                         return State.UNDEF;
 
@@ -367,13 +362,6 @@ import java.io.PrintWriter;
                         return State.Char;
                     else
                         return State.UNDEF;
-                /*case Hex:
-                    if (c == 'x' || c == 'X')
-                        return State.Hex;
-                    if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))
-                        return State.Hex;
-                    if (c == 'u' || c == 'U' || c == 'l' || c == 'L')
-                        return State.Hex;*/
                 default:
                     return State.UNDEF;
             }
@@ -419,15 +407,11 @@ import java.io.PrintWriter;
                 {
                     i = driver(); 
                     if (i == 1){
-                        if(state.compareTo(state.id_i)>=0 && state.compareTo(state.id_tru)<=0){
-                            displayln(t+"	: "+ state.Id);
-                        }else{
-                            displayln(t + "   : " + state.toString());
-                        }
+                       displayln(t + "   : " + state.toString());  
                     }
                     else if (i == 0)
                         displayln(t + "  : Lexical Error, invalid Token");
-                        //break; //remove comment to make program stop when it encounters an error
+                        //break; //remove comment to make program stop when it encounters an error, commented out for program testing
                 }
                 closeIO();
             }
